@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+</head>
+<body>
+    <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <h1>Visualização</h1>
+    </div>
+    
+    <div class="col-8 m-auto pt-4 pb-2 text-center">
+
+        <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Ano</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+             <tr>
+                <th>{{db.id}}</th>
+                <td>{{db.modelo}}</td>
+                <td>{{db.marca}}</td>
+                <td>{{db.ano}}</td>
+                <td>
+                    <a href="/" class="btn btn-info">Voltar</a>
+                    <a href="/edit/{{db.id}}/" class="btn btn-primary">Editar</a>
+                    <a href="" class="btn btn-danger">Deletar</a>
+                </td>
+              </tr>
+            </tbody>
+
+    </div>
+</body>
+</html>

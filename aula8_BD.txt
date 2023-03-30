@@ -1,0 +1,37 @@
+
+CRUD com Python - #8 Usando o MySQL
+08/01/2021
+
+
+Nesta aula faremos o mesmo CRUD realizado anteriormente com SQLITE, agora com o banco de dados MySQL.
+
+Python com MySQL
+project/settings.py
+
+Dentro do arquivo de configurações precisamos setar o novo banco de dados:
+
+'ENGINE': 'django.db.backends.mysql',
+'NAME': "testa",
+'HOST': 'localhost',
+'USER': 'root',
+'PASSWORD': '',
+'PORT': '3306',
+'OPTIONS': {
+    'init_command': 'SET default_storage_engine=InnoDB',
+}
+Configurando o MySQL
+
+Será necessário também um servidor de PHP. No exemplo, utilizaremos o WampServer que já nos fornece o servidor MySQL e o PhpMyAdmin que facilita o gerenciamento do Banco de Dados.
+
+Precisamos também baixar o pacote que faz referência ao MySQL no Python. Nesse pacote você deve baixar exatamente a versão e arquitetura do Python. Durante a gravação desse vídeo eu utilizava a versão 3.8.1/32bits do Python. Para saber a versão do seu Python basta rodar o comando no terminal:
+
+python
+
+pip install mysqlclient
+python manage.py migrate
+python manage.py runserver
+
+Você pode usar um pacote opcional também pra trabalhar com comandos nativos do MySQL:
+
+pip install mysql-connector-python
+Por hoje é só! Sucesso nos códigos e na vida!

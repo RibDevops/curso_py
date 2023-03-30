@@ -1,0 +1,58 @@
+Formulário e Banco de Dados com Python
+app/models.py
+
+No arquivo models do Django vamos realizar a criação das colunas do banco de dados:
+
+from django.db import models
+
+# Create your models here.
+class Carros(models.Model):
+    modelo = models.CharField(max_length=150)
+    marca = models.CharField(max_length=100)
+    ano = models.IntegerField()
+Posteriormente rodaremos o seguinte comando no terminal:
+
+python manage.py makemigrations
+python manage.py migrate
+app/forms.py
+
+Criaremos o arquivo forms.py para criar o nosso formulário de acordo com as colunas vindas do banco de dados.
+
+from django.forms import ModelForm
+from app.models import Carros
+
+# Create the form class.
+class CarrosForm(ModelForm):
+    class Meta:
+        model = Carros
+        fields = ['modelo', 'marca', 'ano']
+app/views.py
+
+Agora basta chamarmos o formulário na nossa view:
+
+from django.shortcuts import render
+from app.forms import CarrosForm
+
+# Create your views here.
+def home(request):
+    return render(request, 'index.html')
+
+def form(request):
+    data = {}
+    data['form'] = CarrosForm()
+    return render(request, 'form.html', data)
+app/templates/form.html
+
+No arquivo html vamos receber o dicionário data para exibir o formulário:
+
+<div class="col-8 m-auto pt-4 pb-2 text-center">
+    <form name="form" id="form" method="post">
+        {% csrf_token %}
+        <!--{{form.as_p}}-->
+        <div class="form-group mt-4">Modelo: {{form.modelo}}</div>
+        <div class="form-group mt-4">Marca: {{form.marca}}</div>
+        <div class="form-group mt-4">Ano: {{form.ano}}</div>
+        <input type="submit" class="btn btn-success" value="Salvar">
+    </form>
+</div>
+Então é isso, por hoje é só! Sucesso nos códigos e na vida!

@@ -1,0 +1,88 @@
+Criação e leitura de dados com Python
+Vamos iniciar pelo terminal do sistema operacional para ativar a venv:
+
+cd c:/Python
+cd venv/Scripts
+activate
+cd c:/Python
+python manage.py runserver
+project/urls.py
+
+Vamos adicionar a rota create e view ao nosso projeto:
+
+from app.views import home, form, create, view
+
+urlpatterns = [
+    path('create/', create, name='create'),
+    path('view//', view, name='view'),
+]
+app/views.py
+
+Vamos criar as funções relativas a create e view:
+
+from app.models import Carros
+
+def create(request):
+    form = CarrosForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+
+def view(request, pk):
+    data = {}
+    data['db'] = Carros.objects.get(pk=pk)
+    return render(request, 'view.html', data)
+templates/form.html
+
+Não esqueça de no html do form inserir o action do formulário:
+
+<form name="form" id="form" action="/create/" method="post">
+templates/index.html
+
+Vamos agora exibir os dados do banco, realizando dessa forma o READ do CRUD.
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Modelo</th>
+      <th scope="col">Marca</th>
+      <th scope="col">Ano</th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for dbs in db %}
+   <tr>
+      <th>{{dbs.id}}</th>
+      <td>{{dbs.modelo}}</td>
+      <td>{{dbs.marca}}</td>
+      <td>{{dbs.ano}}</td>
+      <td>
+          <a href="/view/{{dbs.id}}/" class="btn btn-dark">Visualizar</a>
+          <a href="" class="btn btn-primary">Editar</a>
+          <a href="" class="btn btn-danger">Deletar</a>
+      </td>
+    </tr>
+  {% endfor %}
+
+  </tbody>
+</table>
+app/templates/view.py
+
+Vamos criar agora o template da visualização detalhada dos dados:
+
+<div class="col-8 m-auto pt-2 pb-2 text-center">
+    <h1>Visualização</h1>
+</div>
+
+<div class="col-8 m-auto pt-3 pb-2 text-center">
+    <a href="/" class="btn btn-info">Voltar</a>
+</div>
+
+<div class="col-8 m-auto pt-4 pb-2 text-center">
+    <strong>Modelo: </strong>{{db.modelo}}<br>
+    <strong>Marca: </strong>{{db.marca}}<br>
+    <strong>Ano: </strong>{{db.ano}}<br>
+</div>
+Por hoje é só! Sucesso nos códigos e na vida!

@@ -1,0 +1,60 @@
+
+CRUD com Python - #5 Update
+11/12/2020
+
+
+Nesse tutorial trabalharemos com a parte de edição e update de dados no banco através de um sistema CRUD desenvolvido com Python.
+
+Update com Python
+app/templates/index.html
+
+Vamos adiconar nosso botão de edição ao template:
+
+<a href="/edit/{{dbs.id}}/" class="btn btn-primary">Editar</a>
+project/urls.py
+
+Vamos criar 02 rotas, a edit e a update:
+
+from app.views import home, form, create, view, edit, update
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', home, name='home'),
+    path('form/', form, name='form'),
+    path('create/', create, name='create'),
+    path('view/<int:pk>/', view, name='view'),
+    path('edit/<int:pk>/', edit, name='edit'),
+    path('update/<int:pk>/', update, name='update'),
+]
+app/views.py
+
+Vamos criar agora as views relativas à rota de edição e ao update no banco:
+
+def edit(request, pk):
+    data = {}
+    data['db'] = Carros.objects.get(pk=pk)
+    data['form'] = CarrosForm(instance=data['db'])
+    return render(request, 'form.html', data)
+
+def update(request, pk):
+    data = {}
+    data['db'] = Carros.objects.get(pk=pk)
+    form = CarrosForm(request.POST or None, instance=data['db'])
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+app/templates/form.html
+
+No formulário html vamos fazer as consistências para que ele funcione tanto para criação quanto para edição de registros:
+
+<div class="col-8 m-auto pt-4 pb-2 text-center">
+    <form name="form" id="form" action="{% if db %}/update/{{db.id}}/{%else%}/create/{% endif %}" method="post">
+        {% csrf_token %}
+        <!--{{form.as_p}}-->
+        <div class="form-group mt-4">Modelo: {{form.modelo}}</div>
+        <div class="form-group mt-4">Marca: {{form.marca}}</div>
+        <div class="form-group mt-4">Ano: {{form.ano}}</div>
+        <input type="submit" class="btn btn-success" value="Salvar">
+    </form>
+</div>
+Por hoje é só! Sucesso nos códigos e na vida!

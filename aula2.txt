@@ -1,0 +1,118 @@
+Template do CRUD com Python
+Para criação do template instalaremos o framework frontend Bootstrap.
+
+Criaremos a pasta templates dentro de app.
+
+app/templates/index.html
+
+Primeiro arquivo de template do nosso sistema.
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD com Python</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+
+<!-- {%%} interpreta comando -->
+    <!-- {{}} exibe a informação-->
+    <!-- {% if carro == 'Fusion' %}
+        Esse carro {{carro}}
+    {% else %}
+        Não tem carro
+    {% endif %} -->
+
+    <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <h1>Crud com Python</h1>
+    </div>
+
+    <div class="col-8 m-auto pt-3 pb-2 text-center">
+        <a href="/form" class="btn btn-success">Adicionar</a>
+    </div>
+
+    <div class="col-8 m-auto pt-4 pb-2 text-center">
+        <table class="table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Ano</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+</body>
+</html>
+app/views.py
+
+No nosso arquivo views vamos renderizar esse arquivo html:
+
+from django.shortcuts import render
+
+# Create your views here.
+def home(request):
+    return render(request, 'index.html')
+
+def form(request):
+    return render(request, 'form.html')
+Podemos também passar comandos de dados vindos do backend para o frontend utilizando {%%} e impressões literais usando {{}}
+
+{% if carro == 'Fiat Uno' %}
+    Esse é um carro {{carro}}
+{% else %}
+    Não tem carro
+{% endif %}
+app/templates/form.html
+
+Vamos criar também um arquivo para recepcionar o nosso formulário html:
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="col-8 m-auto pt-2 pb-2 text-center">
+        <h1>Cadastro</h1>
+    </div>
+
+    <div class="col-8 m-auto pt-3 pb-2 text-center">
+        <a href="/" class="btn btn-info">Voltar</a>
+    </div>
+
+    <div class="col-8 m-auto pt-4 pb-2 text-center">
+        Aqui vai vir o form
+    </div>
+</body>
+</html>
+project/urls.py
+
+No arquivo urls.py vamos setar também a nova view chamada form:
+
+from django.contrib import admin
+from django.urls import path
+from app.views import home, form
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', home),
+    path('form/', form),
+]
+Por hoje é só! Sucesso nos códigos e na vida!
